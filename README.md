@@ -1,6 +1,15 @@
 # 🔥 FundBlaze — Crowdfunding Platform
 
-A full-stack MERN crowdfunding platform with campaigns, donations, notifications, and a creator dashboard.
+![Node](https://img.shields.io/badge/Node.js-18+-green)
+![React](https://img.shields.io/badge/React-18+-blue)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![CI](https://img.shields.io/github/actions/workflow/status/ishendrarai/FundBlaze/ci.yml?branch=main&label=CI)
+
+> **Overview**
+> A full-stack MERN crowdfunding platform with campaigns, donations, notifications, and a creator dashboard. FundBlaze empowers creators to raise funds securely with an easy-to-use interface.
+
+> 📸 **Screenshots:** Add a `screenshots/` directory with `dashboard.png` and `campaign.png` or an animated GIF `demo.gif` to showcase the UI.
 
 ---
 
@@ -27,7 +36,12 @@ A full-stack MERN crowdfunding platform with campaigns, donations, notifications
 
 ## Installation & Running
 
-### 1. Clone / extract the project
+### 1. Clone the project
+
+```bash
+git clone https://github.com/ishendrarai/FundBlaze.git
+cd FundBlaze
+```
 
 ### 2. Backend setup
 
@@ -120,29 +134,29 @@ VITE_ENABLE_MSW=false
 
 ## API Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | /api/v1/auth/signup | Register |
-| POST | /api/v1/auth/login | Login |
-| POST | /api/v1/auth/logout | Logout |
-| POST | /api/v1/auth/refresh | Refresh token |
-| GET | /api/v1/auth/me | Current user |
-| GET | /api/v1/campaigns | List campaigns |
-| GET | /api/v1/campaigns/trending | Trending |
-| GET | /api/v1/campaigns/my | My campaigns |
-| GET | /api/v1/campaigns/:slug | Campaign detail |
-| POST | /api/v1/campaigns | Create campaign |
-| PUT | /api/v1/campaigns/:id | Update campaign |
-| DELETE | /api/v1/campaigns/:id | Delete campaign |
-| POST | /api/v1/donations | Create donation |
-| GET | /api/v1/donations/my | My donations |
-| GET | /api/v1/donations/:campaignId | Campaign donors |
-| GET | /api/v1/users/me/stats | Dashboard stats |
-| PUT | /api/v1/users/me | Update profile |
-| GET | /api/v1/users/:id | Public profile |
-| GET | /api/v1/notifications | Notifications |
-| PUT | /api/v1/notifications/:id/read | Mark read |
-| PUT | /api/v1/notifications/read-all | Mark all read |
+| Method | Path | Description | Auth Required |
+|--------|------|-------------|---------------|
+| POST | /api/v1/auth/signup | Register | No |
+| POST | /api/v1/auth/login | Login | No |
+| POST | /api/v1/auth/logout | Logout | Yes |
+| POST | /api/v1/auth/refresh | Refresh token | Yes (Refresh) |
+| GET | /api/v1/auth/me | Current user | Yes |
+| GET | /api/v1/campaigns | List campaigns | No |
+| GET | /api/v1/campaigns/trending | Trending | No |
+| GET | /api/v1/campaigns/my | My campaigns | Yes |
+| GET | /api/v1/campaigns/:slug | Campaign detail | No |
+| POST | /api/v1/campaigns | Create campaign | Yes |
+| PUT | /api/v1/campaigns/:id | Update campaign | Yes |
+| DELETE | /api/v1/campaigns/:id | Delete campaign | Yes |
+| POST | /api/v1/donations | Create donation | Yes |
+| GET | /api/v1/donations/my | My donations | Yes |
+| GET | /api/v1/donations/:campaignId | Campaign donors | No |
+| GET | /api/v1/users/me/stats | Dashboard stats | Yes |
+| PUT | /api/v1/users/me | Update profile | Yes |
+| GET | /api/v1/users/:id | Public profile | No |
+| GET | /api/v1/notifications | Notifications | Yes |
+| PUT | /api/v1/notifications/:id/read | Mark read | Yes |
+| PUT | /api/v1/notifications/read-all | Mark all read | Yes |
 
 ---
 
@@ -157,6 +171,16 @@ After running `npm run seed` in the backend:
 | Admin | admin@fundblaze.com | password123 |
 
 > Check `backend/database/seed.js` for the exact seeded accounts.
+
+---
+
+## Architecture Overview
+
+FundBlaze follows a standard MERN stack architecture:
+- **Frontend (Client):** React application built with Vite, styled with TailwindCSS. Manages state via Zustand and TanStack Query.
+- **Backend (API):** Express.js REST API providing stateless authentication via JWTs.
+- **Database:** MongoDB for flexible schema design, managed via Mongoose ODM.
+- **Payments (Optional):** Integration points for Razorpay and Stripe to handle real monetary transactions securely.
 
 ---
 
@@ -185,3 +209,30 @@ fundblaze/
         ├── utils/       # Formatters, helpers
         └── router/      # React Router config
 ```
+
+---
+
+## Payment Gateway Setup
+
+To enable real payments, you can configure either Razorpay or Stripe:
+1. **Razorpay:** Obtain your `Key ID` and `Key Secret` from the Razorpay Dashboard. Set up a webhook pointing to your server's `/api/v1/webhooks/razorpay` endpoint and set the `RAZORPAY_WEBHOOK_SECRET`.
+2. **Stripe:** Obtain your `Secret Key` from the Stripe Dashboard. Set up a webhook pointing to `/api/v1/webhooks/stripe` and set the `STRIPE_WEBHOOK_SECRET`.
+
+Leave these environment variables blank to fallback to a manual/simulated payment mode for testing.
+
+---
+
+## Contributing
+
+We welcome contributions!
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/amazing-feature`).
+3. Commit your changes (`git commit -m 'Add some amazing feature'`).
+4. Push to the branch (`git push origin feature/amazing-feature`).
+5. Open a Pull Request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
